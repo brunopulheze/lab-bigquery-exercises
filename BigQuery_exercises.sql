@@ -39,6 +39,42 @@ LIMIT 1;
 -- pickup_location_id	trip_count
 -- 132	1743244
 
+-- Exercise 4: Analyze the number of trips per hour of the day
+SELECT 
+  EXTRACT(HOUR FROM pickup_datetime) AS hour_of_day, 
+  COUNT(*) AS trip_count
+FROM
+  `bigquery-public-data.new_york_taxi_trips.tlc_yellow_trips_2022`
+GROUP BY
+  hour_of_day
+ORDER BY
+  hour_of_day;
+
+-- hour_of_day	trip_count
+-- 0	1001786
+-- 1	661286
+-- 2	440841
+-- 3	291413
+-- 4	200553
+-- 5	231502
+-- 6	567755
+-- 7	1051949
+-- 8	1396320
+-- 9	1561361
+-- 10	1719231
+-- 11	1867672
+-- 12	2017343
+-- 13	2058545
+-- 14	2205956
+-- 15	2263896
+-- 16	2250795
+-- 17	2450718
+-- 18	2575374
+-- 19	2325281
+-- 20	2000668
+-- 21	1918459
+-- 22	1768688
+-- 23	1429147
 
 -- Exercise 5: Calculate the average trip distance
 SELECT
@@ -80,6 +116,22 @@ GROUP BY
 -- 2	10292210
 -- 3	210382
 
+-- Exercise 8: Find the most common drop-off location for trips paid by credit card
+SELECT 
+  dropoff_location_id, 
+  COUNT(*) AS trip_count
+FROM
+  `bigquery-public-data.new_york_taxi_trips.tlc_yellow_trips_2022`
+WHERE
+  payment_type = '1'
+GROUP BY
+  dropoff_location_id
+ORDER BY
+  trip_count DESC
+LIMIT 1;
+
+-- dropoff_location_id	trip_count
+-- 236	1236603
 
 -- Exercise 9: Calculate the total number of trips that had more than 4 passengers
 SELECT 
@@ -91,7 +143,6 @@ WHERE
 
 -- trip_count
 -- 1062813
-
 
 -- Exercise 10: Subquery - Find the average fare for trips longer than the average trip distance
 SELECT
